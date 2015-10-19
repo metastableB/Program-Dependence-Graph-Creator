@@ -16,16 +16,16 @@
 
 #include "pdg.h"
 
-int main(int argc, std::string argv[]) {
+int main(int argc, char** argv) {
 	if(argc != 2){
 		std::cout << "Usage ./pdg_cs17 [FileName]\n";
-		return;
+		return 1;
 	}
 	PDG p(argv[1]);
-	if(!p->valid) return 1;
-	p.CDG();
+	if(!p.is_valid()) return 1;
+	p.cdg();
 	std::cout << "\n";
-	p.DDG();
+	p.ddg();
 	std::cout << "\n";
     return 0;
 }

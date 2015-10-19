@@ -2,14 +2,15 @@
 # @authod: metastableB
 
 # Variable declarations
-CC=g++
+CC=clang++
 CFLAGS=-std=c++11 -Wall
 ifeq ($(debug), 1)   
 	CFLAGS += -g -D_DEBUG_
 endif
 
 # Define all source definitions here
-FILES=./init.cpp
+FILES=./init.cpp \
+	  ./pdg.cpp
 
 # Source Targets 
 all :

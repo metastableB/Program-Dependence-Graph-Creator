@@ -16,17 +16,18 @@
  	if(in.fail()){
  		std::cout << "Could not open file\n" << file_name << std::endl;
  		return;
- 	}
+ 	} else valid = true;
  	total_lines = 0;
  	if(makeProgram())
  		valid = true;
- 	if(!allocate_g_cdg())
- 		valid = false;
+ 	else return;
+ 	//if(!allocate_g_cdg())
+ 	//	valid = false;
  }
  PDG::~PDG(){
  	in.close();
- 	free(g_cdg);
- 	free(g_ddg);
+ 	//free(g_cdg);
+ 	//free(g_ddg);
  }
 
  bool PDG::makeProgram(){
@@ -36,11 +37,11 @@
  	}
 
  	std::string s;
- 	int line_no = 0;
+ 	int line_no = 1;
  	int scope = 0;
  	Line_Type type;
  	Line *temp;
- 	while(in >> s){
+ 	while(std::getline(in,s)){
  		type = get_line_type(s);
  		temp = (Line*) malloc(sizeof(Line));
  		program.push_back({line_no,scope,type});
@@ -51,19 +52,22 @@
  				scope++;
  				break;
  			case Line_Type::ELSE:
+ 				scope++;
  				break;
  			case Line_Type::WHILE:
+ 				scope++;
  				break;
  			case Line_Type::SCOPE_CLOSE:
  				scope--;
+ 				(--program.end())->scop -= 1;
  				break;
  			default :
- 				std::cout << "Unknown Line Type at L:" << line_no << std::endl;
+ 				std::cout << "Unknown Line Type at L:" << line_no << "\""+s+"\""<<std::endl;
  				return false;
  		}
  		line_no++;
  	}
- 	total_lines = line_no;
+ 	total_lines = line_no - 1;
  	if(scope != 0){
  		std::cout << "Scopes did not close properly\n";
  		return false;

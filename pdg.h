@@ -28,20 +28,37 @@ class PDG{
 	std::fstream in;
 	bool valid;
 	int total_lines;
-	std::vector<Line> program;
+	/* Line vise disection of the program
+	 * Each input program line is converted to an object
+	 * of struct Line 
+	 */
+	std::vector<Line> program_map;
+	/*
+	 * Variable name, last line of assignment
+	 */
+	std::map<std::string,int> variable_map;
 
 	int **g_cdg, **g_ddg;
 	Line_Type get_line_type(std::string s);
-	bool makeProgram();
+	bool make_program_map();
+	bool make_variable_map();
 	bool allocate_g_cdg();
-
-	void print_cdg();	
+	bool allocate_g_ddg();
+	
+	std::vector<std::string> get_var(std::string s,struct Line it);
 public:
 	~PDG();
 	PDG(std::string s);
 	bool is_valid();
+	
 	void cdg();
+	void print_cdg();
+	void plot_cdg();
+	
 	void ddg();
+	void print_ddg();
+	void plot_ddg();
+
 
 };
 #endif // _PDG_H_

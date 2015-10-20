@@ -1,5 +1,5 @@
 # MakeFile PDG
-# @authod: metastableB
+# @author: metastableB
 
 # Variable declarations
 CC=clang++

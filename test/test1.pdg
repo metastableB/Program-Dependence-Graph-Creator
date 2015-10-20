@@ -1,0 +1,20 @@
+if(some thisng whic desnt mattters){
+	yo = 2;
+	good = 4;
+	yo = good;
+}
+good2 = 3;
+yo = good2;
+b = 3;
+y = 4;
+while(good2 == 3){
+	if(){
+	 a = b
+	}
+	else {
+		yo = b
+		if(a==b){
+			x = y
+		}
+	}
+}

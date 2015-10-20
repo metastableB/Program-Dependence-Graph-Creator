@@ -62,8 +62,8 @@ Further `networkX` does not allow for tree style plots as of now.
 - [ ]  Command line arguments
 
 ### Examples
-![CDG Adjacency List](https://github.com/metastableB/Program-Dependence-Graph-Creator/img/test1_cdg_t)
-![CDG](https://github.com/metastableB/Program-Dependence-Graph-Creator/img/test1_cdg_g)
-![DDG](https://github.com/metastableB/Program-Dependence-Graph-Creator/img/test1_ddg_g)
+![CDG Adjacency List](https://github.com/metastableB/Program-Dependence-Graph-Creator/blob/master/img/test1_cdg_t.png)
+![CDG](https://github.com/metastableB/Program-Dependence-Graph-Creator/blob/master/img/test1_cdg_t.png)
+![DDG](https://github.com/metastableB/Program-Dependence-Graph-Creator/blob/master/img/test1_ddg_g.png)
 
 **&copy; 2015 Don Dennis (metastableB)**

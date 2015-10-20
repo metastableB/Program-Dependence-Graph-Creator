@@ -61,4 +61,9 @@ Further `networkX` does not allow for tree style plots as of now.
 - [ ]  Move on to `graphviz` library for a tree structured plot and other enhancements
 - [ ]  Command line arguments
 
+### Examples
+![CDG Adjacency List](https://github.com/metastableB/Program-Dependence-Graph-Creator/img/test1_cdg_t)
+![CDG](https://github.com/metastableB/Program-Dependence-Graph-Creator/img/test1_cdg_g)
+![DDG](https://github.com/metastableB/Program-Dependence-Graph-Creator/img/test1_ddg_g)
+
 **&copy; 2015 Don Dennis (metastableB)**

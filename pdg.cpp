@@ -191,7 +191,6 @@ void PDG::plot_cdg(){
 		for(int j = 0; j <= total_lines;j++)
 			if(g_cdg[i][j] != 0)
 				edges += "("+std::to_string(i) + "," + std::to_string(j) + ")|";
-	std::cout << edges << std::endl;
 	std::string command = "python ./networkX/simplePlot.py \'" + edges + "\'";
 	system(command.c_str());
 }
@@ -302,7 +301,6 @@ void PDG::plot_ddg(){
 				else
 					edges += "("+std::to_string(i) + "," + std::to_string(j) + ")|";
 			}
-	std::cout << edges << std::endl;
 	std::string command = "python ./networkX/simplePlot.py \'" + edges + "\'";
 	system(command.c_str());
 }

@@ -24,8 +24,6 @@ int main(int argc, char** argv) {
 	PDG p(argv[1]);
 	if(!p.is_valid()) return 1;
 	p.cdg();
-	std::cout << "\n";
 	p.ddg();
-	std::cout << "\n";
     return 0;
 }

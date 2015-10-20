@@ -21,12 +21,12 @@
  	if(makeProgram())
  		valid = true;
  	else return;
- 	//if(!allocate_g_cdg())
- 	//	valid = false;
+ 	if(!allocate_g_cdg())
+ 		valid = false;
  }
  PDG::~PDG(){
  	in.close();
- 	//free(g_cdg);
+ 	free(g_cdg);
  	//free(g_ddg);
  }
 
@@ -41,6 +41,7 @@
  	int scope = 0;
  	Line_Type type;
  	Line *temp;
+ 	program.push_back({0,0,BEGIN});
  	while(std::getline(in,s)){
  		type = get_line_type(s);
  		temp = (Line*) malloc(sizeof(Line));
@@ -59,12 +60,13 @@
  				break;
  			case Line_Type::SCOPE_CLOSE:
  				scope--;
- 				(--program.end())->scop -= 1;
+ 				(--program.end())->scope -= 1;
  				break;
  			default :
  				std::cout << "Unknown Line Type at L:" << line_no << "\""+s+"\""<<std::endl;
  				return false;
  		}
+ 		//std::cout << "L " << line_no << " scope " << (--program.end())->scope << " type " << type << std::endl;
  		line_no++;
  	}
  	total_lines = line_no - 1;
@@ -102,15 +104,73 @@
  }
 
  bool PDG::allocate_g_cdg(){
- 	/* Allocate a graph of total_lines^2 size to **g_gdg */
- 	g_cdg = (int**)malloc(sizeof(int*) * total_lines);
+ 	/* Allocate a graph of total_lines^2 size to **g_cdg */
+ 	g_cdg = (int**)malloc(sizeof(int*) * (total_lines + 1));
  	if(g_cdg == nullptr) return false;
  	for(int i = 0; i < total_lines;i++){
- 		g_cdg[i] = (int*) malloc(sizeof(int)*total_lines);
+ 		g_cdg[i] = (int*) malloc(sizeof(int)*(total_lines+1));
  		if(g_cdg[i] == nullptr) return false;
  	}
  	return true;
  }
  bool PDG::is_valid() {return valid;}
  void PDG::ddg(){}
- void PDG::cdg(){}
+ 
+ void PDG::cdg(){
+ 	bool added[total_lines+1];
+ 	for(int i = 0;i < total_lines + 1; added[i++]=false);
+ 	for(auto i = program.begin();i!= program.end();i++){
+ 		if(added[i->line_no]) continue;
+ 		else if(i->type == Line_Type::BEGIN){
+ 			for(auto j = i + 1; j != program.end(); j++){
+ 				if(j->scope == i->scope && j->type != Line_Type::ELSE){
+ 					added[j->line_no] = true;
+ 					g_cdg[i->line_no][j->line_no] = 1;
+ 				}
+ 			}		
+ 		} else{
+ 			/* First non added statement. Find the sub block
+ 			 * this statement belongs to and, evaluate the
+ 			 * truth of that statement and for that value
+ 			 * add this to the node
+ 			 */
+ 			 auto j = i - 1;
+ 			 for(; j!= program.begin();j--)
+ 			 	if(j->type ==Line_Type::IF || j->type==Line_Type::ELSE || j->type == Line_Type::WHILE) break;
+ 			 if(j== program.begin()){
+ 			 	std::cout << "WOW WOW! Something weird happened\n";
+ 			 	return ;
+ 			 }
+ 			 auto k = j;
+ 			 int tr = 1;
+ 			 if(k->type == Line_Type::ELSE) {
+ 			 	tr = 2;
+ 			 	for(; k!=program.begin();k--)
+ 			 		if(k->type == Line_Type::IF) break;
+ 			 }
+ 			 j++;
+ 			 for(;j !=program.end();j++){
+ 			 	if(added[j->line_no]) break;
+ 			 	if(j->scope == k->scope + 1 && j->type != Line_Type::ELSE){
+ 			 		added[j->line_no] = true;
+ 			 		g_cdg[k->line_no][j->line_no] = tr;
+ 			 	}
+ 			 }
+ 		}
+ 	}
+ 	print_cdg(); 	
+ }
+
+ void PDG::print_cdg(){
+ 	std::printf("CDG\n   ");
+ 	for(int i = 0; i <= total_lines;i++)
+ 		std::printf("%3d ",i);
+ 	std::cout << std::endl;
+ 	for(int i = 0; i < total_lines;i++){
+ 		std::printf("%3d",i);
+ 		for(int j = 0; j <= total_lines; j++){
+ 			std::printf("%3d ",g_cdg[i][j]);
+ 		}
+ 		std::cout << std::endl;
+ 	}
+}

@@ -16,7 +16,8 @@ enum Line_Type{
 	ELSE,
 	WHILE,
 	SCOPE_CLOSE,
-	ERROR
+	ERROR,
+	BEGIN
 };
 struct Line{
 	int line_no;
@@ -33,6 +34,8 @@ class PDG{
 	Line_Type get_line_type(std::string s);
 	bool makeProgram();
 	bool allocate_g_cdg();
+
+	void print_cdg();	
 public:
 	~PDG();
 	PDG(std::string s);

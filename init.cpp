@@ -28,8 +28,8 @@ int main(int argc, char** argv) {
 	PDG p(argv[1]);
 	if(!p.is_valid()) return print_exit();
 	p.cdg();
-	//p.print_cdg();
-	//p.plot_cdg();
+	p.print_cdg();
+	p.plot_cdg();
 	p.ddg();
 	if(!p.is_valid()) return print_exit();
 	p.print_ddg();

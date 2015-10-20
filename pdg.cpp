@@ -2,22 +2,10 @@
  * @author:metastableB
  * pdg.cpp
  * 19 October 2015 (Monday) 
+ *
+ * Please read README.md before any usage.
  */
- /* Assumptions  PDG
-	 - { on the same line as if/else/while
-	 - {} alwas present for block closes
-	 - } always on differnt line
- * Assumptions DDG
- 	- Since data types are not defined, we assume the left
- 	  side of every '=' sign as a variable.
- 	- Since scope rules are not defined, we assume no variable
- 	  decaration is allowed and variables are declared as
- 	  they are used (python style)
- 	- Further we assume variable scope is till end of program 
- 	- Multiple assignments in the same statement are not allowed
- 	- [TODO] While loop dependencies are not covered
- 	- all variables have to be initialized before use
- */
+
 #include "./pdg.h"
 
  PDG::PDG(std::string file_name){
@@ -205,7 +193,7 @@ void PDG::plot_cdg(){
 				edges += "("+std::to_string(i) + "," + std::to_string(j) + ")|";
 	std::cout << edges << std::endl;
 	std::string command = "python ./networkX/simplePlot.py \'" + edges + "\'";
-	//system(command.c_str());
+	system(command.c_str());
 }
 void PDG::ddg(){
 	if(!allocate_g_ddg())
@@ -263,40 +251,26 @@ PDG::get_var(std::string s, struct Line it) {
 	 	pos = m;
 	 	m -= 1;
 	 	int cnt = 0;
-	 	//std::cout << "m " << m << " s[m] " << s[m] << " ";
 	 	while(m>=0 && std::isspace(s[m])) m--;
-	 	//std::cout << "m " << m << " s[m] " << s[m] << " ";
 	 	while(m>=0 && std::isalnum(s[m])) {m--;cnt++;}
-	 	//std::cout << "m " << m << " s[m] " << s[m] << "\n";
 	 	if(m < 0){ 
 	 		std::cout << "ERROR Extracting variable " << 
 	 	 			"from assignment L : " << it.line_no << std::endl;
 	 	 	return var;
 	 	 }
 	 	 var.push_back(s.substr(++m,cnt));
-	 	 //std::cout << "Extracted " << s.substr(m,cnt) << std::endl;
 	 } 
-	 
-	// for(auto v:variable_map){
-	 //	std::cout << "x " << v.first ;}
-	 	//std::cout << std::endl;
 	 for(auto v:variable_map){
-	 	//std::cout << v.first << std::endl;
-	 	
 	 	while((pos = s.find(v.first,pos+1)) != std::string::npos) {
 	 		/*
 	 		 * we might have a match. This can be a
 	 		 * false positive as well.
 	 		 */
-	 		 
-	 		// std::cout << s << pos <<std::endl;
 	 		 if(!std::isalnum(s[pos-1]) && !std::isalnum(s[pos+v.first.length()])){
 	 		 	/* WE have a variable people! */
 	 		 	var.push_back(v.first);
-	 		 	//std::cout << "found " << v.first << std::endl;
 	 		 	break;
 	 		 }
-
 	 	}
 	 }
 	 return var;

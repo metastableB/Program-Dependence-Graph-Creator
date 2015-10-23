@@ -60,6 +60,7 @@ Further `networkX` does not allow for tree style plots as of now.
 - [ ] `while` loop dependencies are not covered
 - [ ]  Move on to `graphviz` library for a tree structured plot and other enhancements
 - [ ]  Command line arguments
+- [ ]  Polish error messages
 
 ### Examples
 ![CDG Adjacency List](https://github.com/metastableB/Program-Dependence-Graph-Creator/blob/master/img/test1_cdg_t.jpg)
